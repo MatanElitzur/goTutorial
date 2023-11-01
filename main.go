@@ -5,8 +5,10 @@ package main // a package is a directory inside a module, a package can be insid
 
 //Use the fmt package for printing
 //import statment is used to import packages and use their code
+//Go will remove the unused packages
 import (
 	"bufio"
+	_ "embed" //the package is not used in the program but it is imported with the _ (underscore)
 	"fmt"
 	"io"
 	"net/http"
@@ -47,7 +49,22 @@ func init() {
 	fmt.Println(`*** Hello from the main.go() init() function ***`)
 }
 
+// Another example to use embed
+// var (
+//
+//		//go:embed menu.txt
+//	    data []slice
+//
+// )
+//
+
+//go:embed menu.txt
+var sread string
+
 func main() {
+	fmt.Println("Used 'embed' to read content from file and set to variable sread")
+	fmt.Println(sread)
+	fmt.Println("*************************************************")
 	//println("Hello, Gophers!")
 	fmt.Println(`This is a Raw string - Hello, Gophers! \n Hello`)
 	fmt.Println("This is interpreted string - Hello, Gophers! \n Hello")
