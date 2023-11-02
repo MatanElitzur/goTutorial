@@ -8,16 +8,21 @@ package main // a package is a directory inside a module, a package can be insid
 //Go will remove the unused packages
 import (
 	"bufio"
-	_ "embed" //the package is not used in the program but it is imported with the _ (underscore)
+	"demo/knowledge" //Add local (custom) package, demo (the module name) is from the go.mod file
+	_ "embed"        //the package is not used in the program but it is imported with the _ (underscore)
 	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"strings"
 
-	"demo/knowledge" //Add local (custom) package, demo (the module name) is from the go.mod file
-
 	"golang.org/x/exp/slices" //This is not part of the standard library so we need to get it with the get command
+	//Package alias example
+	//"rsc.io/quota"
+	//quotev2 "rsc.io/quota/v2"
+	//The way we use both versions
+	//fmt.Println(quote.Hello())
+	//fmt.Println(quotev2.HelloV2())
 )
 
 // /////////////////////////////
