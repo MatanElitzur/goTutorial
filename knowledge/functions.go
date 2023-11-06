@@ -68,3 +68,72 @@ func AddItem(item string) error {
 	return nil //We must to return a value cause this value return an error
 	//In go nil indicates that now error was encountered
 }
+
+// /////////////////////////////////
+// ////Anonymous functions//////////
+// /////////////////////////////////
+func AnonymousFunctions() {
+	anonymousFunction1()
+	anonymousFunction2()
+	addExpression := mathExpression(AddExpr)
+	fmt.Println(addExpression(2, 2))
+	subtractExpression := mathExpression(SubtractExpr)
+	fmt.Println(subtractExpression(2, 2))
+	multiplyExpression := mathExpression(MultiplyExpr)
+	fmt.Println(multiplyExpression(2, 2))
+}
+
+func anonymousFunction1() {
+	anonymous := func() {
+		fmt.Println("my first anonymous function")
+	}
+	anonymous() //Call the anonymous function
+	anonymous() //Call the anonymous function
+}
+
+func anonymousFunction2() {
+	anonymous := func(name string) {
+		fmt.Printf("my first %s anonymous function\n", name)
+	}
+	anonymous("function A") //Call the anonymous function with string parameter
+	anonymous("function B") //Call the anonymous function with string parameter
+}
+
+type MathExpr = string
+
+const (
+	AddExpr      = MathExpr("add")
+	SubtractExpr = MathExpr("subtract")
+	MultiplyExpr = MathExpr("multiply")
+)
+
+func Add(a, b float64) float64 {
+	return a + b
+}
+
+func Subtract(a, b float64) float64 {
+	return a - b
+}
+
+func Multiply(a, b float64) float64 {
+	return a * b
+}
+
+// This function return a function that takes 2 float64 params and return a float64 param
+func mathExpression(expr MathExpr) func(float64, float64) float64 {
+	switch expr {
+	case AddExpr:
+		return Add
+	case SubtractExpr:
+		return Subtract
+	case MultiplyExpr:
+		return Multiply
+	default:
+		return func(f float64, f2 float64) float64 {
+			return 0
+		}
+	}
+	// return func(f float64, f2 float64) float64 {
+	// 	return f + f2
+	// }
+}

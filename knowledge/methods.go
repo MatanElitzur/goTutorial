@@ -44,3 +44,35 @@ func (u user) String() string { // value receiver
 // func (u *user) UpdateName(n name) { //pointer receiver
 // 	u.username = name
 // }
+
+type SemanticVersion struct {
+	major, minor, patch int
+}
+
+func NewSemanticVersion(major, minor, patch int) SemanticVersion {
+	return SemanticVersion{
+		major: major,
+		minor: minor,
+		patch: patch,
+	}
+}
+
+// The use of (sv SemanticVersion) meanes a value base receiver it creates a copy of the object that is been sent
+func (sv SemanticVersion) String() string {
+	return fmt.Sprintf("%d.%d.%d", sv.major, sv.minor, sv.patch)
+}
+
+// The use of (sv *SemanticVersion) meanes a reference base receiver it works on the object that invoked this func
+func (sv *SemanticVersion) IncrementMajor() {
+	sv.major += 1
+}
+
+// The use of (sv *SemanticVersion) meanes a reference base receiver it works on the object that invoked this func
+func (sv *SemanticVersion) IncrementMinor() {
+	sv.minor += 1
+}
+
+// The use of (sv *SemanticVersion) meanes a reference base receiver it works on the object that invoked this func
+func (sv *SemanticVersion) IncrementPatch() {
+	sv.patch += 1
+}

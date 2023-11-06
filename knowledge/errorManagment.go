@@ -4,6 +4,7 @@ package knowledge
 import (
 	"errors"
 	"fmt"
+	"io"
 	"os"
 )
 
@@ -22,6 +23,7 @@ func ErrorManagment1() {
 	}
 	fmt.Println(resultDivideNumber3)
 
+	errorExample1()
 }
 
 func error1() {
@@ -65,4 +67,29 @@ func divideNumber3(l, r int) (result int, err error) {
 		}
 	}()
 	return l / r, nil
+}
+
+// /////////////////////////////////////////////////////////////////////////////////////////////
+func errorExample1() error {
+	var r io.Reader = BadReader{err: errors.New("my nonsense reader")}
+	// if _, err := r.Read([]byte("test something")); err != nil {
+	// 	fmt.Printf("an error occurred %s", err)
+	// 	return err
+	// }
+	value, err := r.Read([]byte("test something"))
+	if err != nil {
+		fmt.Printf("an error occurred %s", err)
+		return err
+	}
+	fmt.Println(value)
+	return nil
+}
+
+// BadReader struct is implementing the inferface Reader
+type BadReader struct {
+	err error
+}
+
+func (br BadReader) Read(p []byte) (n int, err error) {
+	return -1, br.err
 }

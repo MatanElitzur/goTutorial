@@ -1,3 +1,4 @@
+// Package name and folder name must be identical for the go language to recognize the package
 // Package knowledge has an examples of golang code
 package knowledge
 
