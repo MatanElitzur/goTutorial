@@ -3,6 +3,7 @@
 package knowledge
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -39,6 +40,18 @@ func If_expression1() {
 	}
 	fmt.Println("after the if statement")
 
+	if result, err := is_num_is_10(10); err == nil {
+		fmt.Printf("The number is 10 %v\n", result)
+	} else {
+		fmt.Printf("Number is not 10! err: %s\n", err)
+	}
+}
+
+func is_num_is_10(num int) (bool, error) {
+	if num == 10 {
+		return true, nil
+	}
+	return false, errors.New("Num is not equel to 10")
 }
 
 // Public package function --> start with a capital letter

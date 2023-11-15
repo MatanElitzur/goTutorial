@@ -3,7 +3,7 @@
 1. https://go.dev/
 2. https://pkg.go.dev/std --> Standard library
 3. https://go-proverbs.github.io/ --> Do & Don't
-4. testing package --> https://pkg.go.dev/testing@go1.21.3#T
+4. testing package --> https://golang.org/pkg/testing
 ## go commands
 1. go mod --> module maintenance, will display several commands; go help mod (The get all the options)
    1. go mod init <NAME OF MODULE>--> initialize a new module in current directory, create a go.mod file (it's a configuration file about the module and it dependencies) inside the module name is demo.
@@ -34,6 +34,7 @@
 3. go run . --> compile the current code into a temp directory and run the Go program.
    1. go run <moduleName> --> Run the binary compiled go file
    2. go run -mod=vendor . --> Run the app but use the dependencies from the vendor folder
+   3. go run --race . --> Look for race condition (WARNING: DATA RACE) Found 1 data race(s)
 4. go get <package> --> Thie will download a package
    1. Example: go get golang.org/x/exp/slices
    2. Example: go get github.com/pioz/faker
@@ -48,7 +49,29 @@
 5. go test <Tests locations> 
    1.  go test . --> Run all tests in root directory
    2.  go test ./knowledge --> Run all tests in knowledge directory
-   3.  got test ./...  --> Run all tests in root directory and subsirectories (All test in the module)
+   3.  go test ./...  --> Run all tests in root directory and subsirectories (All test in the module)
+   4.  go test {pkg1} {pkg2} ... {pkgn} --> Test specified packages
+   5.  go test -v --> Generate vebose output
+   6.  go test -run {regexp} --> Run only tests matching (regexp)
+   7.  go help testflag --> display all the test flags that we can add to the test command.
+   8.  go help test --> display info about the test command
+   9.  go test -cover --> get the info of the test coverage.
+   10. go test -coverprofile <fileName> --> save the test coverage into a binary file.
+       1.  Example: go test -coverprofile cover.out
+   11. go tool cover -func <fileName> --> Analyze the coverage generated file
+       1.  Example go tool cover -func cover.out
+   12. go tool cover -html <fileName> --> Analyze the coverage generated file by opening a web browser display
+   13. go test -coverprofile <fileName> -covermode count --> save the test coverage into a file and get a count of how many times the functions were hit.
+   14. go test -bench . --> Run all tests, including benchmarks tests casue as default go test ignores benchmark tests
+       1.  Example: go test -bench ./knowledge
+   15. go test -bench -benchtime 10s --> Run benchmarks tests, targeting the specified time to 10s cause the default time is 1s. (This is the time that we test the Benchmark tests)
+   16. go test -bench <test name or part of the test name>
+   17. go test -bench <test name or part of the test name> -benchmem --> Will show how much memory allocation was used.
+   18. got test -bench <test name or part of the test name> -memprofile profile.out --> print the result into a file
+   19. go tool pprof profile.out --> I want to anlyze the memory file, can use now the pprof. type help to see all the commands. Type svg, a svg file will appear. (to see the svg graph, install graphviz.org/download)
+   20. go test -benchmem --> Report memory allocation statistics for bachmarks
+   21. go test -trace <filename> --> Recored execution trace to {trace.out} for analysis
+   22. got test -{type}profile {file} --> generate profile of requested type: block, cover, cpu, mem, mutex
 6. go list --> display the go module name that we are working on.
    1. go list all --> display all the packages that exists in our project.
    2. go list -m all --> We get only the modules that we use, in our app
