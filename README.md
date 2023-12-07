@@ -31,6 +31,7 @@
    1. Example: go build . --> In (unix) <moduleName> file will appear. (windows) <moduleName>.exe apper
    2. Example: go build -mod=vendor . --> build the app with the dependencies from the vendor folder.
    3. Example: go build -mod=readonly . --> build the app it will fail if the same version will exists in the require and exlude parameter. If we not use the readonly the go tool will change the version in the reqire parameter automatically
+   4. Example: GOARCH=amd64 go build -o binaries/portal-utils.osx -v --> Build on a mac with 2.3 GHz 8-Core Intel Core i9 processor
 3. go run . --> compile the current code into a temp directory and run the Go program.
    1. go run <moduleName> --> Run the binary compiled go file
    2. go run -mod=vendor . --> Run the app but use the dependencies from the vendor folder
@@ -84,6 +85,9 @@
       1. go env -w GO111MODULE=off --> Remove the Go module awareness means go command looks for packages in the directories specified by the GOPATH environment variable.
       2. go env -w GO111MODULE=on --> Go command looks for the go.mod file in the project directory to determine the required dependencies and their versions. If the file exists, the command downloads the required dependencies and stores them in a local cache, which can be shared between projects.
       3. go env -w GO111MODULE=auto --> Enable Go module system if a go.mod file is present in the project directory. If no go.mod file is found, the legacy GOPATH mode is used.
+8. 1. go work init <go project folder name> <go module folder name> ... --> a command to set as a go workspace, it will let me to work with multiple projects refering to local instances of modules or other. The output is a go.work file.
+   1. Example: go work init toolkit app
+   2. go work use <folderName> --> add folder name into existing go.work file
 ## Go project structure
 1.  Go project structure example:
         project/
