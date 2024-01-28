@@ -4,6 +4,7 @@
 2. https://pkg.go.dev/std --> Standard library
 3. https://go-proverbs.github.io/ --> Do & Don't
 4. testing package --> https://golang.org/pkg/testing
+5. Semantic versioning --> https://semver.org/
 ## go commands
 1. go mod --> module maintenance, will display several commands; go help mod (The get all the options)
    1. go mod init <NAME OF MODULE>--> initialize a new module in current directory, create a go.mod file (it's a configuration file about the module and it dependencies) inside the module name is demo.
