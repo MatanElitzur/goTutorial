@@ -15,7 +15,7 @@ func doSomethingCool(ctx context.Context) {
 	fmt.Println(rID)
 	for {
 		select {
-		case <-ctx.Done():
+		case <-ctx.Done(): //Done is called when the timeout is trigger
 			fmt.Println("timed out")
 			return
 		default:
@@ -27,14 +27,15 @@ func doSomethingCool(ctx context.Context) {
 
 func ExecuteContext() {
 	fmt.Println("Go context Tutorial")
-	//ctx := context.Background() //creation of context
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
-	defer cancel()         // We want to cancel the context at the end, if we invoke cancel() without defer it will cancel right away
-	fmt.Println(ctx.Err()) //Will print <nil> --> Because we called it before we called ctx.Done()
+	//ctx1 := context.Background() //creation of context
+	//ctx, cancel := context.WithTimeout(ctx1, 2*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second) //After 2 secounds the ctx.Done() is trigger,, casue the time has ended
+	defer cancel()                                                          // We want to cancel the context at the end, if we invoke cancel() without defer it will cancel right away
+	fmt.Println(ctx.Err())                                                  //Will print <nil> --> Because we called it before we called ctx.Done()
 	ctx = enrichContext(ctx)
 	go doSomethingCool(ctx)
 	select {
-	case <-ctx.Done():
+	case <-ctx.Done(): //Done is called when the timeout is trigger
 		fmt.Println("oh no, I'v exceeded the deadline")
 		fmt.Println(ctx.Err()) //Will print: context deadline exceeded --> becasue we called it after ctx.Done()
 	}
