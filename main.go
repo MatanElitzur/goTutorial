@@ -351,6 +351,9 @@ func main() {
 	fmt.Println(`*****  CONCURRENT PROGRAMING  ******`)
 	knowledge.ConcurrentPrograming1()
 
+	/////////// Context  ///////////////////
+	fmt.Println(`***** CONTEXT ******`)
+	knowledge.ExecuteContext()
 	//////////////////////////////////////
 	/////// WebServer ////////////
 	//////////////////////////////////////

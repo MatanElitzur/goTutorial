@@ -5,6 +5,7 @@
 3. https://go-proverbs.github.io/ --> Do & Don't
 4. testing package --> https://golang.org/pkg/testing
 5. Semantic versioning --> https://semver.org/
+6. https://go.dev/wiki/SQLDrivers
 ## go commands
 1. go mod --> module maintenance, will display several commands; go help mod (The get all the options)
    1. go mod init <NAME OF MODULE>--> initialize a new module in current directory, create a go.mod file (it's a configuration file about the module and it dependencies) inside the module name is demo.
@@ -55,6 +56,7 @@
    4.  go test {pkg1} {pkg2} ... {pkgn} --> Test specified packages
    5.  go test -v --> Generate vebose output
    6.  go test -run {regexp} --> Run only tests matching (regexp)
+       1.  Example: go test -run Handler --> will run all tests names that finish with the Handler string
    7.  go help testflag --> display all the test flags that we can add to the test command.
    8.  go help test --> display info about the test command
    9.  go test -cover --> get the info of the test coverage.

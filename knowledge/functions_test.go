@@ -23,9 +23,30 @@ import (
 // Documentation
 // https://golang.org/pkg/testing
 // https://pkg.go.dev/testing@go1.21.3#T
+
+//Non-immediate failures
+//t.Fail()
+//t.Error(...interface{})
+//t.Errorf(string, ...interface{})
+
+// Immediate failures
+// t.FailNow()
+// t.Fatal(..interface)
+// t.Fatalf(string, ..interface)
+
+//Run tests in Parallel
+// t.Parallel --> You can add t.Parallel at the begining of the tests and the tests will run in Parallel
+//You must verify that the tests are not using the same resources
+
+//Skip a test
+//t.Skip() // You can add this line at the begining of the test and the test will skip
+
 func TestSum(t *testing.T) { //(t *testing.T) --> This is a pointer of the test runner
+	t.Parallel()
 	//arrange step
+	t.Log("Sarted TestSum func") // Will print to the log only if test fails
 	l, r := 1, 2
+	t.Logf("Sum func input are %d and %d", l, r) // Will print to the log only if test fails
 	expect := 3
 	// action step
 	actual := Sum(l, r)
@@ -37,6 +58,7 @@ func TestSum(t *testing.T) { //(t *testing.T) --> This is a pointer of the test 
 
 // This way of writing test is powerful cause you can test different options as inputs
 func TestSumTableDriven(t *testing.T) {
+	t.Parallel()
 	scenarios := []struct {
 		inputA int
 		inputB int
