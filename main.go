@@ -308,10 +308,10 @@ func main() {
 	/////// Use Interfaces ///////////////
 	//////////////////////////////////////
 	fmt.Println(`*****  INTERFACES  ******`)
-	var p knowledge.Printer                        // creating a variable of type Printer from module knowledge
-	p = knowledge.User{Username: "Popsi", Id: 123} //assign new object of type knowledge.User to the knowledge.Printer variable and initialize it
+	var p knowledge.Printer                         // creating a variable of type Printer from module knowledge
+	p = &knowledge.User{Username: "Popsi", Id: 123} //assign new object of type knowledge.User to the knowledge.Printer variable and initialize it
 	fmt.Println(p.Print())
-	p = knowledge.Item{Itemname: "Hammer", Id: 1}
+	p = &knowledge.Item{Itemname: "Hammer", Id: 1}
 	fmt.Println(p.Print())
 
 	//Create go Panic
@@ -319,16 +319,18 @@ func main() {
 	// testInterface.Print()
 
 	//Now I will not get Go Panic
-	testInterface, ok := p.(knowledge.User) // I expect that p is of type knowledge.User, if I am wrong go will panic
-	fmt.Println(testInterface, ok)          //// Now we get false cause the assertion is wrong
+	testInterface, ok := p.(*knowledge.User) // I expect that p is of type knowledge.User, if I am wrong go will panic
+	fmt.Println(testInterface, ok)           //// Now we get false cause the assertion is wrong
 
-	testInterface1, ok := p.(knowledge.Item)
+	testInterface1, ok := p.(*knowledge.Item)
 	fmt.Println(testInterface1, ok) // Now we get true cause the assertion is right
 	switch v := p.(type) {
-	case knowledge.User:
+	case *knowledge.User:
 		fmt.Println("Found a user!", v)
-	case knowledge.Item:
+		v.Hello()
+	case *knowledge.Item:
 		fmt.Println("Found an item!", v)
+		v.Color()
 	default:
 		fmt.Println("I am not sure what is is...", v)
 	}
@@ -355,6 +357,14 @@ func main() {
 	fmt.Println(`***** CONTEXT ******`)
 	knowledge.ExecuteContext()
 	knowledge.ExecuteContext_2()
+
+	//////////////////////////////////////
+	///////// Limiter ////////////////////
+	//////////////////////////////////////
+	fmt.Println(`***** LIMITER ******`)
+	knowledge.Limiter_1()
+	knowledge.Limiter_2()
+
 	//////////////////////////////////////
 	/////// WebServer ////////////
 	//////////////////////////////////////

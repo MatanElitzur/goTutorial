@@ -59,13 +59,26 @@ type Item struct {
 }
 
 // Implement the interface for User struct
-func (u User) Print() string {
+func (u *User) Print() string {
 	fmt.Println(`interfaces.go --> Inside Print method of struct User`)
 	return fmt.Sprintf("%v [%v]\n", u.Username, u.Id)
 }
 
+// Add method to the User struct, this method not exists in the interface
+func (u *User) Hello() string {
+	fmt.Println(`interfaces.go --> Inside Hello method of struct User`)
+	return fmt.Sprintf("Hello %v [%v] how are you?\n", u.Username, u.Id)
+}
+
+// **********************************************************
 // Implement the interface for Item struct
-func (i Item) Print() string {
+func (i *Item) Print() string {
 	fmt.Println(`interfaces.go --> Inside Print method of struct Item`)
 	return fmt.Sprintf("%v [%v]\n", i.Itemname, i.Id)
+}
+
+// Add method to the Item struct, this method not exists in the interface
+func (i *Item) Color() string {
+	fmt.Println(`interfaces.go --> Inside Color method of struct Item`)
+	return fmt.Sprintf("Color method, %v [%v]\n", i.Itemname, i.Id)
 }
