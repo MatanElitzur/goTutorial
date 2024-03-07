@@ -303,7 +303,9 @@ func main() {
 	fmt.Println(result2, result2Bool)
 	result3, result3Bool := knowledge.DivideNumber1(1, 5)
 	fmt.Println(result3, result3Bool)
-
+	knowledge.SayHelloUsingEllipsis()
+	knowledge.SayHelloUsingEllipsis("Matan")
+	knowledge.SayHelloUsingEllipsis("Matan", "Ariel")
 	/////////////////////////////////////
 	/////////   Operation   /////////////
 	/////////////////////////////////////

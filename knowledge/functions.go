@@ -137,3 +137,10 @@ func mathExpression(expr MathExpr) func(float64, float64) float64 {
 	// 	return f + f2
 	// }
 }
+
+// using Ellipsis
+func SayHelloUsingEllipsis(names ...string) {
+	for _, n := range names {
+		fmt.Printf("Hello %s\n", n)
+	}
+}
