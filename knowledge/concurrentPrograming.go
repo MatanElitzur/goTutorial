@@ -3,12 +3,18 @@ package knowledge
 
 import (
 	"fmt"
+	"math/rand"
 	"sync"
 	"time"
 )
 
 func ConcurrentPrograming1() {
 	concurrentPrograming1()
+	concurrentPrograming2()
+	concurrentProgramingChan1()
+	concurrentProgramingChan2()
+	concurrentProgramingChan3()
+	concurrentProgramingMutex1()
 	concurrentProgramingSelect()
 	concurrentProgramingLooping()
 	playWithPets()
@@ -50,7 +56,50 @@ func concurrentPrograming1() {
 	//Meanwhile the sceduler receive the request to invoke the go routine
 	//So when wg.Done() will be call and decrement by 1 so now the index is on zero
 	//And now the wait block will stop to block and the code will continue in the main run.
+	wg.Wait() //Main process is blocked with wg.Wait()
+}
+
+func concurrentProgramingChan1() {
+	c := make(chan int)
+	go func() {
+		sum := 0
+		for i := 0; i < 10; i++ {
+			fmt.Println("IDX from go routine func:", i)
+			sum += 1
+		}
+		c <- sum
+	}()
+	output := <-c //Basiclly this is like wg.Wait() it is blocking the main process (We get the chanel value)
+	fmt.Println("Output:", output)
+}
+
+type SafeCounter struct {
+	mu     sync.Mutex
+	NumMap map[string]int
+}
+
+func (s *SafeCounter) add(num int) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.NumMap["key"] = num
+}
+
+// This function will create 100 go routine and will update the number with function add(num int)
+// But each go routine will update the value separately cause of the s.mu.Lock()
+func concurrentProgramingMutex1() {
+	s := SafeCounter{NumMap: make(map[string]int)}
+	var wg sync.WaitGroup
+	for i := 0; i < 100; i++ {
+		wg.Add(1)
+		go func(i int) {
+			defer wg.Done()
+			s.add(i)
+		}(i)
+	}
 	wg.Wait()
+	fmt.Println("concurrentProgramingMutex1:", s.NumMap["key"])
+	//Basically we don't know what will be the number in the print cause we don't know which
+	//go routine updated the value at the end
 }
 
 func concurrentProgramingSelect() {
@@ -134,7 +183,7 @@ func concurrentProgramingUsingBufferedChannels() {
 	//Meanwhile the sceduler receive the request to invoke the go routine
 	//So when wg.Done() will be call and decrement by 1 so now the index is on zero
 	//And now the wait block will stop to block and the code will continue in the main run.
-	wg.Wait()
+	wg.Wait() //Main process is blocked with wg.Wait()
 }
 
 ////////////// CHANNEL TYPES /////////////////////
@@ -175,4 +224,84 @@ func playWithPets() {
 
 	time.Sleep(10 * time.Millisecond)
 	fmt.Println("end concurrentPrograming-->playWithPets()")
+}
+
+func concurrentPrograming2() {
+	var wg sync.WaitGroup
+	wg.Add(1)
+
+	go func() {
+		defer wg.Done()
+		for i := 0; i < 10; i++ {
+			fmt.Println("IDX from FIRST func:", i)
+			time.Sleep(time.Duration(rand.Intn(100)) * time.Millisecond)
+		}
+	}()
+
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		for i := 0; i < 10; i++ {
+			fmt.Println("IDX from SECOND func:", i)
+			time.Sleep(time.Duration(rand.Intn(100)) * time.Millisecond)
+		}
+	}()
+
+	wg.Wait() //Main process is blocked with wg.Wait()
+	fmt.Println("concurrentPrograming2 ended")
+}
+
+// //////////////////////////////////////////////////////////////////////////////////////////
+func sayHello(name string, ch chan string) {
+	time.Sleep(1 * time.Second) // Simulate some work
+	fmt.Println("concurrentProgramingChan2 Hello,", name)
+	ch <- "concurrentProgramingChan2 Hello from " + name // Send message to channel
+}
+
+func concurrentProgramingChan2() {
+	// Create a channel to receive messages
+	ch := make(chan string)
+
+	// Launch two goroutines to say hello to different names
+	go sayHello("Alice", ch)
+	go sayHello("Bob", ch)
+
+	// Receive messages from the channel (order might vary)
+	msg1 := <-ch
+	msg2 := <-ch
+
+	fmt.Println(msg1)
+	fmt.Println(msg2)
+}
+
+// ///////////////////////////////////////////////////////////////////////////////
+func producer(ch chan<- int) {
+	for i := 0; i < 10; i++ {
+		ch <- i // Send value to the channel
+		fmt.Println("concurrentProgramingChan3 Sent:", i)
+		time.Sleep(500 * time.Millisecond) // Simulate some work
+	}
+}
+
+func consumer(ch <-chan int) {
+	for i := 0; i < 10; i++ {
+		value := <-ch // Receive value from the channel
+		fmt.Println("concurrentProgramingChan3 Received:", value)
+		time.Sleep(1 * time.Second) // Simulate some work
+	}
+}
+
+func concurrentProgramingChan3() {
+	// Create a buffered channel with a capacity of 10 integers
+	ch := make(chan int, 10)
+
+	// Launch a producer goroutine
+	go producer(ch)
+
+	// Launch a consumer goroutine
+	go consumer(ch)
+
+	// Wait for both goroutines to finish
+	time.Sleep(15 * time.Second) // Adjust this time as needed
+	fmt.Println("Exiting main function")
 }

@@ -304,6 +304,24 @@ func main() {
 	result3, result3Bool := knowledge.DivideNumber1(1, 5)
 	fmt.Println(result3, result3Bool)
 
+	/////////////////////////////////////
+	/////////   Operation   /////////////
+	/////////////////////////////////////
+	fmt.Println(`*****  OPERATION SYSTEM  ******`)
+	knowledge.Operation_1()
+
+	/////////////////////////////////////
+	/////////   StructPattern   /////////////
+	/////////////////////////////////////
+	fmt.Println(`*****  StructPattern  ******`)
+	knowledge.StructPattern()
+
+	/////////////////////////////////////
+	/////////   DecoratorPattern   /////
+	/////////////////////////////////////
+	fmt.Println(`*****  DecoratorPattern  ******`)
+	knowledge.DecoratorPattern_1()
+
 	//////////////////////////////////////
 	/////// Use Interfaces ///////////////
 	//////////////////////////////////////
@@ -355,7 +373,10 @@ func main() {
 
 	/////////// Context  ///////////////////
 	fmt.Println(`***** CONTEXT ******`)
-	knowledge.ExecuteContext()
+	knowledge.ExecuteContext_1()
+	knowledge.ExecuteContext_11()
+	knowledge.ExecuteContext_12()
+	knowledge.ExecuteContext_13()
 	knowledge.ExecuteContext_2()
 
 	//////////////////////////////////////

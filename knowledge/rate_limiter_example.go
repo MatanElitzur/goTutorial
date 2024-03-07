@@ -58,7 +58,7 @@ func Limiter_2() {
 			// Handle context cancellation or exceeding wait time limit
 			break
 		}
-
+		fmt.Println("Index: ", i)
 		// Access the resource if allowed
 		accessResource()
 	}
