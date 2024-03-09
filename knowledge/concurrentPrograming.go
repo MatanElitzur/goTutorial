@@ -14,6 +14,8 @@ func ConcurrentPrograming1() {
 	concurrentProgramingChan1()
 	concurrentProgramingChan2()
 	concurrentProgramingChan3()
+	concurrentProgramingChan4()
+	concurrentProgramingChan5()
 	concurrentProgramingMutex1()
 	concurrentProgramingSelect()
 	concurrentProgramingLooping()
@@ -304,4 +306,46 @@ func concurrentProgramingChan3() {
 	// Wait for both goroutines to finish
 	time.Sleep(15 * time.Second) // Adjust this time as needed
 	fmt.Println("Exiting main function")
+}
+
+func concurrentProgramingChan4() {
+	orders := make(chan string) //Unbuffered channel
+
+	//Customer placing orders
+	//The system can handle only one oreder at a time
+	go func() {
+		for i := 1; i <= 5; i++ { //For loops simulating 5 customers
+			order := fmt.Sprintf("concurrentProgramingChan4 Coffee order #%d", i)
+			orders <- order //Blocks until the barista is ready to accept the order
+		}
+		close(orders) //Once all orders are finish we close the channel
+	}()
+
+	//Barista processing orders
+	for order := range orders { //The barista waits for a channel
+		fmt.Printf("concurrentProgramingChan4 Preparing: %s\n", order)
+		time.Sleep(2 * time.Second) //Time taken to prepare the order
+		fmt.Printf("concurrentProgramingChan4 Served: %s\n", order)
+	} //The for loop brake when the cannel is closed "close(orders)""
+}
+
+func concurrentProgramingChan5() {
+	orders := make(chan string, 3) //Buffered channel with a capacity of 3
+
+	//Customer placing orders
+	//The system can handle up to 3 oreders at a time
+	go func() {
+		for i := 1; i <= 5; i++ { //For loops simulating 5 customers
+			order := fmt.Sprintf("concurrentProgramingChan5 Coffee order #%d", i)
+			orders <- order //Only blocks if the buffer is full
+		}
+		close(orders) //Once all orders are finish we close the channel
+	}()
+
+	//Barista processing orders
+	for order := range orders { //The barista waits for a channel
+		fmt.Printf("concurrentProgramingChan5 Preparing: %s\n", order)
+		time.Sleep(2 * time.Second) //Time taken to prepare the order
+		fmt.Printf("concurrentProgramingChan5 Served: %s\n", order)
+	} //The for loop brake when the cannel is closed "close(orders)""
 }
