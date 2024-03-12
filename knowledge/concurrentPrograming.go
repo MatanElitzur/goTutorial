@@ -18,6 +18,8 @@ func ConcurrentPrograming1() {
 	concurrentProgramingChan5()
 	concurrentProgramingChan6()
 	concurrentProgramingMutex1()
+	concurrentProgramingMutex2()
+	concurrentProgramingMutex3()
 	concurrentProgramingSelect()
 	concurrentProgramingLooping()
 	playWithPets()
@@ -105,6 +107,84 @@ func concurrentProgramingMutex1() {
 	//go routine updated the value at the end
 }
 
+// ////////////////////////////////////////////////////////////////////////////////////////////////////
+func concurrentProgramingMutex2() {
+	var tickets int = 500 //Total number of tickets available
+	var wg sync.WaitGroup
+	mutexPointer := &sync.Mutex{} // Create a pointer to a mutex
+	//simulating a lot of users trying to but tickets
+	//For simplicity let's assume number of tickets a user can buy is one
+	for userId := 0; userId < 2000; userId++ {
+		wg.Add(1)
+		//Buy ticket for the user with ID userId
+		go buyTicket(&wg, mutexPointer, userId, &tickets)
+	}
+	wg.Wait()
+}
+
+/*
+a function that simulates a user trying to buy  a ticket.
+It sends a request to the manageticket goroutine through ticketChan
+*/
+func buyTicket(wg *sync.WaitGroup, mutex *sync.Mutex, userId int, remainigTickets *int) {
+	defer wg.Done()
+	mutex.Lock()
+	if *remainigTickets > 0 {
+		*remainigTickets-- //User purchases a ticket
+		fmt.Printf("User %d purchased a ticket. Tickets remaining: %d \n", userId, *remainigTickets)
+	} else {
+		fmt.Printf("User %d found no ticket. \n", userId)
+	}
+	mutex.Unlock()
+}
+
+// ///////////////////////////////////////////////////////////////////////////////////////////////////
+func concurrentProgramingMutex3() {
+	var tickets int = 500 //Total number of tickets available
+	var wg sync.WaitGroup
+	ticketChan := make(chan int)
+	doneChan := make(chan bool)
+	go manageTicket(ticketChan, doneChan, &tickets)
+	for userId := 0; userId < 2000; userId++ {
+		wg.Add(1)
+		go buyTicket3(&wg, ticketChan, userId)
+	}
+	wg.Wait()
+	doneChan <- true //There can be a senario that less then 500 users wants to buy the tickets
+	//in this case we want to signal the manageTicket go routine that we want to finish with the request
+}
+
+/*
+A function that is responsiable for managing ticket allocations and responding to user requests.
+It listens for incoming requests on a channel (ticketChan) and signals on another channel (doneChan)
+when it's time to stop
+*/
+func manageTicket(ticketChan chan int, doneChan chan bool, tickets *int) {
+	for {
+		select {
+		case user := <-ticketChan: //gets the userId from the channel,
+			if *tickets > 0 {
+				*tickets--
+				fmt.Printf("User %d purchased a ticket. Tickets remaining: %d \n", user, *tickets)
+			} else {
+				fmt.Printf("User %d found no ticket. \n", user)
+			}
+		case <-doneChan: //is done triggered
+			fmt.Printf("Ticket remaining. \n", *tickets)
+		}
+	}
+}
+
+/*
+a function that simulates a user trying to buy  a ticket.
+It sends a request to the manageticket goroutine through ticketChan
+*/
+func buyTicket3(wg *sync.WaitGroup, ticketChan chan int, userId int) {
+	defer wg.Done()
+	ticketChan <- userId
+}
+
+// /////////////////////////////////////////////////////////////////////////////////////////////////////
 func concurrentProgramingSelect() {
 	ch1, ch2 := make(chan string), make(chan string) //Creating two chanels that work with type string
 
