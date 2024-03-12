@@ -3,6 +3,7 @@ package imageprocessing
 import (
 	"fmt"
 	"image"
+	"image/color"
 	"image/jpeg"
 	"os"
 
@@ -41,5 +42,20 @@ func Resize(img image.Image) image.Image {
 	newHeight := uint(50)
 	resizedImg := resize.Resize(newWidth, newHeight, img, resize.Lanczos2)
 	return resizedImg
+}
 
+func Grayscale(img image.Image) image.Image {
+	// Create a new grayscale image
+	bounds := img.Bounds()
+	grayImg := image.NewGray(bounds)
+
+	// Convert each pixel to grayscale
+	for y := bounds.Min.Y; y < bounds.Max.Y; y++ {
+		for x := bounds.Min.X; x < bounds.Max.X; x++ {
+			originalPixel := img.At(x, y)
+			grayPixel := color.GrayModel.Convert(originalPixel)
+			grayImg.Set(x, y, grayPixel)
+		}
+	}
+	return grayImg
 }

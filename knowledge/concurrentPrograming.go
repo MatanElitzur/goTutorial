@@ -16,6 +16,7 @@ func ConcurrentPrograming1() {
 	concurrentProgramingChan3()
 	concurrentProgramingChan4()
 	concurrentProgramingChan5()
+	concurrentProgramingChan6()
 	concurrentProgramingMutex1()
 	concurrentProgramingSelect()
 	concurrentProgramingLooping()
@@ -348,4 +349,37 @@ func concurrentProgramingChan5() {
 		time.Sleep(2 * time.Second) //Time taken to prepare the order
 		fmt.Printf("concurrentProgramingChan5 Served: %s\n", order)
 	} //The for loop brake when the cannel is closed "close(orders)""
+}
+
+// ////////////////////////////////////////////////////////////////////////////
+func doWork(d time.Duration, resch chan string) {
+	fmt.Printf("concurrentProgramingChan6 doing work...")
+	time.Sleep(d)
+	fmt.Printf("concurrentProgramingChan6 work is done!")
+	resch <- fmt.Sprintf("concurrentProgramingChan6 the result of the work -> %d", rand.Intn(100))
+	wg.Done()
+}
+
+var wg *sync.WaitGroup
+
+func concurrentProgramingChan6() {
+	start := time.Now()
+	resultch := make(chan string)
+	wg = &sync.WaitGroup{}
+	wg.Add(3)
+	go doWork(time.Second*2, resultch)
+	go doWork(time.Second*4, resultch)
+	go doWork(time.Second*6, resultch)
+
+	go func() {
+		for res := range resultch {
+			fmt.Println(res)
+		}
+		fmt.Printf("concurrentProgramingChan6 work took %v seconds\n", time.Since(start))
+	}()
+
+	time.Sleep(time.Second)
+	wg.Wait()
+	close(resultch)
+
 }
