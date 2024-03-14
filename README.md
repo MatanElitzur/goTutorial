@@ -17,7 +17,8 @@
    4. go mod verfiy --> verify that when we build the module all the dependencies modules are with the right version.
    5. go mod why <package> --> Why do we need a specifc package that exists in our go.mod file
    6. go mod graph --> display the dependencies graph for the application
-   7. go mod download <value> --> download a package/module into the go cache, it will not display in the go.mod file, but it will be available for us if we are without internet and we use the go get command, Example: go mod download github.com/pioz/faker@master
+   7. go mod download <value> --> download a package/module into the go cache, it will not display in the go.mod file but af the go.sum file with the corresponding checksums, but it will be available for us if we are without internet and we use the go get command, Example: go mod download github.com/pioz/faker@master
+   More over instaed of using go get command, you can manually update the go.mod file and then execute the command go mod download
    8. go mod edit <parameter> <value > --> Edit the go.mod file, can be used with a tool 
       1. Example: go mod edit -module <value> --> set the **module** paramater with the <value>
       2. Example: go mod edit -go <value> --> set the **go** paramater with the <value>
