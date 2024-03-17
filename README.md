@@ -14,12 +14,13 @@
       3. Example: go mod init github.com/pluralsight/gomodules
    2. go mod tidy --> remove unused dependencies from go.mod file.
    3. go mod vendor -v --> Create a vendor folder in the same folder(root folder), it will contain the packages that the app use.
-   4. go mod verfiy --> verify that when we build the module all the dependencies modules are with the right version.
+   4. go mod verify --> verify that when we build the module all the dependencies modules are with the right version.
    5. go mod why <package> --> Why do we need a specifc package that exists in our go.mod file
    6. go mod graph --> display the dependencies graph for the application
    7. go mod download <value> --> download a package/module into the go cache, it will not display in the go.mod file but af the go.sum file with the corresponding checksums, but it will be available for us if we are without internet and we use the go get command, Example: go mod download github.com/pioz/faker@master
    More over instaed of using go get command, you can manually update the go.mod file and then execute the command go mod download
-   8. go mod edit <parameter> <value > --> Edit the go.mod file, can be used with a tool 
+   8. go mod download command creates and updates go.sum whenever you download dependencies for your project.
+   9. go mod edit <parameter> <value > --> Edit the go.mod file, can be used with a tool 
       1. Example: go mod edit -module <value> --> set the **module** paramater with the <value>
       2. Example: go mod edit -go <value> --> set the **go** paramater with the <value>
       3. Example: go mod edit -require <value> --> add or update the **require** paramater with the <value>
@@ -35,6 +36,8 @@
    2. Example: go build -mod=vendor . --> build the app with the dependencies from the vendor folder.
    3. Example: go build -mod=readonly . --> build the app it will fail if the same version will exists in the require and exlude parameter. If we not use the readonly the go tool will change the version in the reqire parameter automatically
    4. Example: GOARCH=amd64 go build -o binaries/portal-utils.osx -v --> Build on a mac with 2.3 GHz 8-Core Intel Core i9 processor
+   5. go build -tags dev .  --> build all go files that have 2 first line like: (first line)//go:build dev (second line) // +build dev
+   6. go build -tags prod .  --> build all go files that have 2 first line like: (first line)//go:build prod (second line) // +build prod
 3. go run . --> compile the current code into a temp directory and run the Go program.
    1. go run <moduleName> --> Run the binary compiled go file
    2. go run -mod=vendor . --> Run the app but use the dependencies from the vendor folder
