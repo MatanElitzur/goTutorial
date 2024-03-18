@@ -123,6 +123,16 @@ func main() {
 		c1            //1
 		d1 = 3 * iota //6
 	)
+	type respFormat int
+	const ( //iota is the position in the const
+		noFormat respFormat = iota
+		formatJSON
+		formatHTML
+	)
+	// var formatMap = map[string]respFormat{
+	// 	"json": formatJSON,
+	// 	"html": formatHTML,
+	// }
 
 	//////////////////////////////////////
 	/////// Pointers example ////////////
@@ -390,6 +400,12 @@ func main() {
 	//////////////////////////////////////
 	fmt.Println(`*****  GENERIC  ******`)
 	knowledge.Clone()
+
+	///////////////////////////////////
+	////////  Caching   //////////////
+	//////////////////////////////////
+	fmt.Println(`*****  CACHING  ******`)
+	knowledge.Caching_01()
 
 	////////////////////////////////////////////
 	/////// Error Managment ////////////////////

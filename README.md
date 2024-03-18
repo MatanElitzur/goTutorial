@@ -42,6 +42,7 @@
    1. go run <moduleName> --> Run the binary compiled go file
    2. go run -mod=vendor . --> Run the app but use the dependencies from the vendor folder
    3. go run --race . --> Look for race condition (WARNING: DATA RACE) Found 1 data race(s)
+      1. Example: got run -race navigation.go
 4. go get <package> --> Thie will download a package
    1. Example: go get golang.org/x/exp/slices
    2. Example: go get github.com/pioz/faker
