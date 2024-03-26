@@ -9,6 +9,7 @@ package main // a package is a directory inside a module, a package can be insid
 import (
 	"bufio"
 	"demo/knowledge" //Add local (custom) package, demo (the module name) is from the go.mod file
+	"demo/logger"    //Add local (custom) package, demo (the module name) is from the go.mod file
 	_ "embed"        //the package is not used in the program but it is imported with the _ (underscore)
 	"fmt"
 	"io"
@@ -321,6 +322,20 @@ func main() {
 	/////////////////////////////////////
 	fmt.Println(`*****  OPERATION SYSTEM  ******`)
 	knowledge.Operation_1()
+
+	/////////////////////////////////////
+	/////////// LOG ////////////////////
+	////////////////////////////////////
+	fmt.Println(`*****  LOG  ******`)
+	logger.Info("This is an info print!")
+	logger.Warning("This is a warning print!")
+	logger.Error("This is an error print!")
+
+	logger.SetLevel(logger.WarningLevel)
+
+	logger.Info("This is an info print!")
+	logger.Warning("This is a warning print!")
+	logger.Error("This is an error print!")
 
 	/////////////////////////////////////
 	/////////   Slog   /////////////
