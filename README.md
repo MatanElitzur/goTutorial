@@ -61,7 +61,8 @@
    4.  go test {pkg1} {pkg2} ... {pkgn} --> Test specified packages
    5.  go test -v --> Generate vebose output
    6.  go test -run {regexp} --> Run only tests matching (regexp)
-       1.  Example: go test -run Handler --> will run all tests names that finish with the Handler string
+       1.  Example: go test -run Handler --> run all tests names that finish with the Handler string
+       2.  Example: go test ./cmd/saas-registry -v -run List --> run all tests that finish with  the name List from specific path
    7.  go help testflag --> display all the test flags that we can add to the test command.
    8.  go help test --> display info about the test command
    9.  go test -cover --> get the info of the test coverage.
@@ -121,3 +122,6 @@
    3.  5 - Minor revision (new features, doesn't break BC)
    4.  3 - Patch (bug fixes, no new features, and doesn't breadk BC)
    5.  pre1 - Pre-release of new version, if applicable (text is arbitrary)
+
+## Debugger
+1. Delve --> https://github.com/go-delve/delve
