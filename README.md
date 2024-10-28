@@ -89,7 +89,7 @@
    2. go list -m all --> We get only the modules that we use, in our app
    3. go list -m -versions <ModuleName> --> Display all avilable version for module.
       1. Example go list -m -versions golang.org/x/exp
-7.  go env --> display all go variables, 
+7.  go env --> display all go variables 
    1. Example GOPATH variable where packages are located
    2. Example GOMODCACHE where the packages are stored in the cache
    3. go parameter GO111MODULE --> Used when we want to use am external tool to manage modules dependencies
