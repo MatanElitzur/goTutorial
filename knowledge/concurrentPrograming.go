@@ -17,6 +17,7 @@ func ConcurrentPrograming1() {
 	concurrentProgramingChan4()
 	concurrentProgramingChan5()
 	concurrentProgramingChan6()
+	concurrentProgramingChan7()
 	concurrentProgramingMutex1()
 	concurrentProgramingMutex2()
 	concurrentProgramingMutex3()
@@ -462,4 +463,25 @@ func concurrentProgramingChan6() {
 	wg.Wait()
 	close(resultch)
 
+}
+
+func generator(n int, ch chan int) {
+	for i := 0; i < n; i++ {
+		ch <- i // send a value to the channel
+	}
+	close(ch) // close the channel after the loop
+}
+
+func concurrentProgramingChan7() {
+	fmt.Printf("concurrentProgramingChan7 start")
+	ch := make(chan int)
+
+	go generator(5, ch)
+
+	for val := range ch {
+		fmt.Println(val) // receive values one by one from the channel
+	}
+	fmt.Printf("concurrentProgramingChan7 ended")
+
+	//panic("concurrentProgramingChan7 panic")
 }

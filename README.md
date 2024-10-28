@@ -40,6 +40,8 @@
    6. go build -tags prod .  --> build all go files that have 2 first line like: (first line)//go:build prod (second line) // +build prod
 3. go run . --> compile the current code into a temp directory and run the Go program.
    1. go run <moduleName> --> Run the binary compiled go file
+      example:
+         1. go run main.go
    2. go run -mod=vendor . --> Run the app but use the dependencies from the vendor folder
    3. go run --race . --> Look for race condition (WARNING: DATA RACE) Found 1 data race(s)
       1. Example: got run -race navigation.go

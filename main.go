@@ -67,6 +67,7 @@ func init() {
 //go:embed menu.txt
 var sread string
 
+// to execute via terminal use the following command: go run main.go
 func main() {
 	fmt.Println("Used 'embed' to read content from file and set to variable sread")
 	fmt.Println(sread)
